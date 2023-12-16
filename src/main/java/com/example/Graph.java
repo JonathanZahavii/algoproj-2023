@@ -31,18 +31,16 @@ public class Graph {
         return (Board) this.graph.keySet().toArray()[index];
     }
 
-    // TODO: Switch queue to Queue interface
     public List<Board> BFS(Board start, Board goal) {
         System.out.println("Starting BFS");
         List<Board> visited = new ArrayList<>();
-        List<Board> queue = new ArrayList<>();
+        Queue<Board> queue = new LinkedList<Board>();
 
         this.addNode(start);
-        queue.addLast(start);
+        queue.add(start);
 
         while (!queue.isEmpty()) {
-            Board current = queue.getFirst();
-            queue.removeFirst();
+            Board current = queue.poll();
             current.printBoard();
 
             if (current.equals(goal)) {
@@ -57,7 +55,7 @@ public class Graph {
                     this.addNode(neighbor);
                     this.addEdge(current, neighbor);
                     if (!visited.contains(neighbor)) {
-                        queue.addLast(neighbor);
+                        queue.add(neighbor);
                     }
                 }
             }
