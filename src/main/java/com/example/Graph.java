@@ -114,10 +114,11 @@ public class Graph {
                 }
 
                 // Update g-score and total cost if a better path is found
-                if (!queue.contains(neighbor) || tentativeGScore < gScore.get(neighbor)) {
+                if (!queue.contains(neighbor) || !gScore.containsKey(neighbor)
+                        || tentativeGScore < gScore.get(neighbor)) {
                     gScore.put(neighbor, tentativeGScore);
 
-                    int totalCost = tentativeGScore + heuristicManhattan(neighbor, goal);
+                    int totalCost = tentativeGScore + heuristic(neighbor, goal, Heuristic.MANHATTAN);
                     neighbor.setTotalCost(totalCost);
                     neighbor.setCameFrom(current);
 
@@ -143,7 +144,7 @@ public class Graph {
         return path;
     }
 
-    public int heuristicManhattan(Board current, Board goal) {
+    private int heuristicManhattan(Board current, Board goal) {
         int[][] currentBoard = current.getBoard();
         int[][] goalBoard = goal.getBoard();
         int manhattanDistance = 0;
@@ -166,7 +167,26 @@ public class Graph {
         return manhattanDistance;
     }
 
-    public int heuristicDijaksra(Board current, Board goal) {
+    private int heuristicDijaksra(Board current, Board goal) {
         return 0;
+    }
+
+    private int heuristicNonAdmissible(Board current, Board goal) {
+        // Non-admissible heuristic always returns a constant value of 5
+        return 5;
+    }
+
+    private int heuristic(Board current, Board goal, Heuristic type) {
+        switch (type) {
+            case MANHATTAN:
+                return heuristicManhattan(current, goal);
+            case DIJAKSTRA:
+                return heuristicDijaksra(current, goal);
+            case NONADMISSIBLE:
+                return heuristicNonAdmissible(current, goal);
+            default:
+                return 0;
+        }
+
     }
 }

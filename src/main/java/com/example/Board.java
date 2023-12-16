@@ -100,13 +100,12 @@ public class Board {
         board[i][j] = temp;
     }
 
-    // TODO: Check if works
-    public void generateSolvableInXMoves(int x) {
+    public void generateSolvableInXMoves(int moves) {
         int emptyRow = size - 1;
         int emptyCol = size - 1;
         Random random = new Random();
 
-        for (int i = 0; i < x; i++) {
+        for (int i = 0; i < moves; i++) {
             int direction = random.nextInt(4); // 0: up, 1: right, 2: down, 3: left
             boolean moveMade = false;
 
