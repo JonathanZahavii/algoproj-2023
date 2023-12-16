@@ -3,10 +3,10 @@ package com.example;
 public class App {
 
     public static void main(String[] args) {
-        Board initBoard = new Board(24);
-        initBoard.generateSolvableInXMoves(20);
-        Board goalBoard = new Board(24);
+        Board initBoard = new Board(15);
+        initBoard.generateSolvableInXMoves(10);
+        Board goalBoard = new Board(15);
         Graph graph = new Graph();
-        graph.BFS(initBoard, goalBoard);
+        graph.AStar(initBoard, goalBoard);
     }
 }

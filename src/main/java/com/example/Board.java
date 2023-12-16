@@ -9,6 +9,9 @@ public class Board {
     private int[][] board;
     private int size;
 
+    private int totalCost;
+    private Board cameFrom;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -147,7 +150,6 @@ public class Board {
     }
 
     public void printBoard() {
-        System.out.println("Board:");
         for (int[] row : board) {
             for (int tile : row) {
                 System.out.print(tile + " ");
@@ -155,4 +157,29 @@ public class Board {
             System.out.println();
         }
     }
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public int getSize() {
+        return size;
+    }
+    
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public Board getCameFrom() {
+        return this.cameFrom;
+    }
+
+    public void setCameFrom(Board cameFrom) {
+        this.cameFrom = cameFrom;
+    }
+
 }
