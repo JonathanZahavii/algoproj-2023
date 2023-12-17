@@ -1,9 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Board {
     private int[][] board;
@@ -164,7 +161,7 @@ public class Board {
     public int getSize() {
         return size;
     }
-    
+
     public int getTotalCost() {
         return totalCost;
     }
@@ -181,4 +178,53 @@ public class Board {
         this.cameFrom = cameFrom;
     }
 
+    private static int[][] insertBoard() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the size of the board:");
+        int length = scanner.nextInt();
+        int size = (int) Math.sqrt(length + 1);
+        int[][] board = new int[size][size];
+        System.out.println("Enter the elements of the board:");
+        for (int i = 0; i < size; i++) {
+            System.out.println("Row #" + (i + 1));
+            for (int j = 0; j < size; j++) {
+                System.out.println("Col #" + (j + 1));
+                board[i][j] = scanner.nextInt();
+            }
+        }
+        scanner.close();
+        return board;
+    }
+
+    private static boolean isSolvable(int[][] board) {
+        int[] flatBoard = Arrays.stream(board)
+                .flatMapToInt(Arrays::stream)
+                .toArray();
+        int inversions = 0;
+        for (int i = 0; i < flatBoard.length - 1; i++) {
+            for (int j = i + 1; j < flatBoard.length; j++) {
+                if (flatBoard[i] > flatBoard[j]) {
+                    inversions++;
+                }
+            }
+        }
+        int zeroIndex = Arrays.asList(flatBoard).indexOf(0);
+        if (zeroIndex == -1)
+            throw new IllegalArgumentException("The board is not solvable: no empty tile");
+        int blankRowFromBottom = (flatBoard.length - zeroIndex) / board.length;
+
+        if (board.length % 2 == 0 && blankRowFromBottom % 2 != inversions % 2) {
+            return true;
+        } else if (inversions % 2 == 0) {
+            return true;
+        } else {
+            throw new IllegalArgumentException("The board is not solvable");
+        }
+    }
+
+    public static Board getBoardFromUser() {
+        int[][] board = insertBoard();
+        isSolvable(board);
+        return new Board(board);
+    }
 }
