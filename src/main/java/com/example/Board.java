@@ -152,30 +152,7 @@ public class Board {
             }
             System.out.println();
         }
-    }
-
-    public int[][] getBoard() {
-        return board;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(int totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public Board getCameFrom() {
-        return this.cameFrom;
-    }
-
-    public void setCameFrom(Board cameFrom) {
-        this.cameFrom = cameFrom;
+        System.out.println("---------------------------------");
     }
 
     private static int[][] insertBoard() {
@@ -227,4 +204,29 @@ public class Board {
         isSolvable(board);
         return new Board(board);
     }
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public Board getCameFrom() {
+        return this.cameFrom;
+    }
+
+    public void setCameFrom(Board cameFrom) {
+        this.cameFrom = cameFrom;
+    }
+
 }

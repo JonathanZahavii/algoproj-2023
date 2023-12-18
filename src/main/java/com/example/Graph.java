@@ -24,36 +24,58 @@ public class Graph {
     }
 
     public List<Board> getNeighbors(Board node) {
-        return this.graph.get(node);
+        List<Board> neighbors = this.graph.get(node);
+        if (neighbors.size() < 4) {
+            neighbors = node.getNeighbors();
+        }
+        return neighbors;
     }
 
-    public Board get(int index) {
-        return (Board) this.graph.keySet().toArray()[index];
+    public int getNodeCount() {
+        return this.graph.keySet().size();
     }
 
-    public List<Board> BFS(Board start, Board goal) {
-        System.out.println("Starting BFS");
+    public double getRunTimeInSeconds(long startTime) {
+        long endTime = System.nanoTime();
+        long runTime = endTime - startTime;
+        double runTimeInSeconds = runTime / 1_000_000_000.0;
+        return runTimeInSeconds;
+    }
+
+    private List<Board> reconstructPath(Board current) {
+        List<Board> path = new ArrayList<>();
+        while (current != null) {
+            path.add(current);
+            current = current.getCameFrom();
+        }
+        Collections.reverse(path);
+        return path;
+    }
+
+    public InspectAnswer BFS(Board start, Board goal) {
+        long startTime = System.nanoTime();
         List<Board> visited = new ArrayList<>();
         Queue<Board> queue = new LinkedList<Board>();
+        boolean isSolved = false;
 
         this.addNode(start);
         queue.add(start);
+        Board current = start;
 
         while (!queue.isEmpty()) {
-            Board current = queue.poll();
-            current.printBoard();
-
+            current = queue.poll();
             if (current.equals(goal)) {
-                System.out.println("Goal found");
                 visited.add(current);
-                return visited;
+                isSolved = true;
+                break;
             }
 
             if (!visited.contains(current)) {
                 visited.add(current);
-                for (Board neighbor : current.getNeighbors()) {
+                for (Board neighbor : current.getNeighbors()) { // FIXME: Not getting neighbors from graph
                     this.addNode(neighbor);
                     this.addEdge(current, neighbor);
+                    neighbor.setCameFrom(current);
                     if (!visited.contains(neighbor)) {
                         queue.add(neighbor);
                     }
@@ -61,8 +83,9 @@ public class Graph {
             }
         }
 
-        System.out.println("Goal not found");
-        return visited;
+        double runTime = getRunTimeInSeconds(startTime);
+        List<Board> path = reconstructPath(current);
+        return new InspectAnswer(runTime, this.getNodeCount(), path.size(), isSolved);
     }
 
     /**
@@ -74,51 +97,46 @@ public class Graph {
      * @return A list of board states representing the shortest path from start
      *         to goal.
      */
-    public List<Board> AStar(Board start, Board goal) {
-        System.out.println("Starting A*");
-        Set<Board> visited = new HashSet<>();
+    public InspectAnswer AStar(Board start, Board goal, Heuristic heuristicType) {
+        long startTime = System.nanoTime();
+        boolean isSolved = false;
+        List<Board> visited = new ArrayList<>();
+        Map<Board, Integer> gScore = new HashMap<>(); // Map to store the g-scores (cost from start) for each node
         PriorityQueue<Board> queue = new PriorityQueue<>(Comparator.comparingInt(Board::getTotalCost)); // Priority
                                                                                                         // queue for the
                                                                                                         // queue,
                                                                                                         // ordered by
                                                                                                         // the total
                                                                                                         // cost
-        Map<Board, Integer> gScore = new HashMap<>(); // Map to store the g-scores (cost from start) for each node
-        int count = 0;
-
         this.addNode(start);
         queue.add(start);
         gScore.put(start, 0);
+        Board current = start;
 
         while (!queue.isEmpty()) {
-            Board current = queue.poll();
-            System.out.println("Board " + count);
-            current.printBoard();
-
-            if (current.equals(goal)) {
-                System.out.println("Goal found");
-                return reconstructPath(current);
-            }
-
+            current = queue.poll();
             visited.add(current);
 
-            for (Board neighbor : current.getNeighbors()) {
+            if (current.equals(goal)) {
+                isSolved = true;
+                break;
+            }
+
+            for (Board neighbor : current.getNeighbors()) { // FIXME: Not getting neighbors from graph
                 this.addNode(neighbor);
                 this.addEdge(current, neighbor);
-
                 int tentativeGScore = gScore.get(current) + 1;
 
                 // Skip if the neighbor is already visited and has a higher g-score
-                if (visited.contains(neighbor) && tentativeGScore >= gScore.get(neighbor)) {
+                if (visited.contains(neighbor) && tentativeGScore >= gScore.get(neighbor))
                     continue;
-                }
 
                 // Update g-score and total cost if a better path is found
                 if (!queue.contains(neighbor) || !gScore.containsKey(neighbor)
                         || tentativeGScore < gScore.get(neighbor)) {
                     gScore.put(neighbor, tentativeGScore);
 
-                    int totalCost = tentativeGScore + heuristic(neighbor, goal, Heuristic.MANHATTAN);
+                    int totalCost = tentativeGScore + heuristic(neighbor, goal, heuristicType);
                     neighbor.setTotalCost(totalCost);
                     neighbor.setCameFrom(current);
 
@@ -127,21 +145,11 @@ public class Graph {
                     }
                 }
             }
-            count++;
         }
 
-        System.out.println("Goal not found");
-        return new ArrayList<>();
-    }
-
-    private List<Board> reconstructPath(Board current) {
-        List<Board> path = new ArrayList<>();
-        while (current != null) {
-            path.add(current);
-            current = current.getCameFrom();
-        }
-        Collections.reverse(path);
-        return path;
+        double runTime = getRunTimeInSeconds(startTime);
+        List<Board> path = reconstructPath(current);
+        return new InspectAnswer(runTime, this.getNodeCount(), path.size(), isSolved);
     }
 
     private int heuristicManhattan(Board current, Board goal) {
