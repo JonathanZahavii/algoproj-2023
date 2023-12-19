@@ -61,52 +61,60 @@ public class Board {
 
     public List<Board> getNeighbors() {
         List<Board> neighbors = new ArrayList<>();
-        int i0 = 0, j0 = 0;
+        int oldRow = 0, oldCol = 0;
         boolean found = false;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 0) {
-                    i0 = i;
-                    j0 = j;
+                    oldRow = i;
+                    oldCol = j;
                     found = true;
                     break;
                 }
             }
-            if (found) {
+            if (found)
                 break;
-            }
         }
 
         int[][] dirs = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
         for (int[] dir : dirs) {
-            int newI = i0 + dir[0];
-            int newJ = j0 + dir[1];
-            if (newI >= 0 && newI < board.length && newJ >= 0 && newJ < board[0].length) {
-                swap(i0, j0, newI, newJ);
+            int newRow = oldRow + dir[0];
+            int newCol = oldCol + dir[1];
+            if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
+                swap(oldRow, oldCol, newRow, newCol);
                 neighbors.add(new Board(board));
-                swap(i0, j0, newI, newJ);
+                swap(oldRow, oldCol, newRow, newCol);
             }
         }
 
         return neighbors;
     }
 
-    private void swap(int i0, int j0, int i, int j) {
-        int temp = board[i0][j0];
-        board[i0][j0] = board[i][j];
-        board[i][j] = temp;
+    private void swap(int oldRow, int oldCol, int newRow, int newCol) {
+        int temp = board[oldRow][oldCol];
+        board[oldRow][oldCol] = board[newRow][newCol];
+        board[newRow][newCol] = temp;
     }
 
+    // FIXME: When generating with last move, it's not solvable
     public void generateSolvableInXMoves(int moves) {
         int emptyRow = size - 1;
         int emptyCol = size - 1;
         Random random = new Random();
+        int lastMove = -1;
 
         for (int i = 0; i < moves; i++) {
             int direction = random.nextInt(4); // 0: up, 1: right, 2: down, 3: left
             boolean moveMade = false;
 
             while (!moveMade) {
+                // don't undo the last move
+                if ((lastMove == 0 && direction == 2) || (lastMove == 2 && direction == 0)
+                        || (lastMove == 1 && direction == 3) || (lastMove == 3 && direction == 1)) {
+                    direction = random.nextInt(4);
+                    continue;
+                }
+
                 switch (direction) {
                     case 0: // up
                         if (emptyRow < size - 1) {
@@ -138,11 +146,14 @@ public class Board {
                         break;
                 }
 
-                if (!moveMade) {
+                if (moveMade) {
+                    lastMove = direction;
+                } else {
                     direction = random.nextInt(4);
                 }
             }
         }
+        this.printBoard();
     }
 
     public void printBoard() {
@@ -174,10 +185,9 @@ public class Board {
     }
 
     private static boolean isSolvable(int[][] board) {
-        int[] flatBoard = Arrays.stream(board)
-                .flatMapToInt(Arrays::stream)
-                .toArray();
+        int[] flatBoard = Arrays.stream(board).flatMapToInt(Arrays::stream).toArray();
         int inversions = 0;
+
         for (int i = 0; i < flatBoard.length - 1; i++) {
             for (int j = i + 1; j < flatBoard.length; j++) {
                 if (flatBoard[i] > flatBoard[j]) {
@@ -185,14 +195,13 @@ public class Board {
                 }
             }
         }
+
         int zeroIndex = Arrays.asList(flatBoard).indexOf(0);
         if (zeroIndex == -1)
             throw new IllegalArgumentException("The board is not solvable: no empty tile");
-        int blankRowFromBottom = (flatBoard.length - zeroIndex) / board.length;
 
-        if (board.length % 2 == 0 && blankRowFromBottom % 2 != inversions % 2) {
-            return true;
-        } else if (inversions % 2 == 0) {
+        int blankRowFromBottom = (flatBoard.length - zeroIndex) / board.length;
+        if ((board.length % 2 == 0 && blankRowFromBottom % 2 != inversions % 2) || inversions % 2 == 0) {
             return true;
         } else {
             throw new IllegalArgumentException("The board is not solvable");
