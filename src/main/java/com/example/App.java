@@ -8,8 +8,9 @@ public class App {
         // Board initBoard = Board.getBoardFromUser();
         Board goalBoard = new Board(15);
         Graph graph = new Graph();
-        // InspectAnswer inspectAnswer = graph.BFS(initBoard, goalBoard);
-        InspectAnswer inspectAnswer = graph.AStar(initBoard, goalBoard, Heuristic.MANHATTAN);
+        PuzzleSolver solver = new PuzzleSolver();
+        // InspectAnswer inspectAnswer = solver.BFS(graph, initBoard, goalBoard);
+        InspectAnswer inspectAnswer = solver.AStar(graph, initBoard, goalBoard, Heuristic.MANHATTAN);
         inspectAnswer.print();
     }
 }
