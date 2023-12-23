@@ -81,9 +81,9 @@ public class Board {
             int newRow = oldRow + dir[0];
             int newCol = oldCol + dir[1];
             if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
-                swap(oldRow, oldCol, newRow, newCol);
+                this.swap(oldRow, oldCol, newRow, newCol);
                 neighbors.add(new Board(board));
-                swap(oldRow, oldCol, newRow, newCol);
+                this.swap(oldRow, oldCol, newRow, newCol);
             }
         }
 
@@ -92,14 +92,13 @@ public class Board {
 
     private void swap(int oldRow, int oldCol, int newRow, int newCol) {
         int temp = board[oldRow][oldCol];
-        board[oldRow][oldCol] = board[newRow][newCol];
-        board[newRow][newCol] = temp;
+        this.board[oldRow][oldCol] = this.board[newRow][newCol];
+        this.board[newRow][newCol] = temp;
     }
 
-    // FIXME: When generating with last move, it's not solvable
     public void generateSolvableInXMoves(int moves) {
-        int emptyRow = size - 1;
-        int emptyCol = size - 1;
+        int emptyRow = this.size - 1;
+        int emptyCol = this.size - 1;
         Random random = new Random();
         int lastMove = -1;
 
@@ -117,29 +116,29 @@ public class Board {
 
                 switch (direction) {
                     case 0: // up
-                        if (emptyRow < size - 1) {
-                            swap(emptyRow, emptyCol, emptyRow + 1, emptyCol);
+                        if (emptyRow < this.size - 1) {
+                            this.swap(emptyRow, emptyCol, emptyRow + 1, emptyCol);
                             emptyRow++;
                             moveMade = true;
                         }
                         break;
                     case 1: // right
                         if (emptyCol > 0) {
-                            swap(emptyRow, emptyCol, emptyRow, emptyCol - 1);
+                            this.swap(emptyRow, emptyCol, emptyRow, emptyCol - 1);
                             emptyCol--;
                             moveMade = true;
                         }
                         break;
                     case 2: // down
                         if (emptyRow > 0) {
-                            swap(emptyRow, emptyCol, emptyRow - 1, emptyCol);
+                            this.swap(emptyRow, emptyCol, emptyRow - 1, emptyCol);
                             emptyRow--;
                             moveMade = true;
                         }
                         break;
                     case 3: // left
-                        if (emptyCol < size - 1) {
-                            swap(emptyRow, emptyCol, emptyRow, emptyCol + 1);
+                        if (emptyCol < this.size - 1) {
+                            this.swap(emptyRow, emptyCol, emptyRow, emptyCol + 1);
                             emptyCol++;
                             moveMade = true;
                         }
