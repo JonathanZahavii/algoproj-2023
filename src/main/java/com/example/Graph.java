@@ -42,16 +42,6 @@ public class Graph {
         return runTimeInSeconds;
     }
 
-    private List<Board> reconstructPath(Board current) {
-        List<Board> path = new ArrayList<>();
-        while (current != null) {
-            path.add(current);
-            current = current.getCameFrom();
-        }
-        Collections.reverse(path);
-        return path;
-    }
-
     public InspectAnswer BFS(Board start, Board goal) {
         long startTime = System.nanoTime();
         List<Board> visited = new ArrayList<>();
@@ -84,8 +74,8 @@ public class Graph {
         }
 
         double runTime = getRunTimeInSeconds(startTime);
-        List<Board> path = reconstructPath(current);
-        return new InspectAnswer(runTime, this.getNodeCount(), path.size(), isSolved);
+        Path path = Path.reconstructPath(current);
+        return new InspectAnswer(runTime, this.getNodeCount(), path.getMoves(), isSolved);
     }
 
     /**
@@ -148,8 +138,8 @@ public class Graph {
         }
 
         double runTime = getRunTimeInSeconds(startTime);
-        List<Board> path = reconstructPath(current);
-        return new InspectAnswer(runTime, this.getNodeCount(), path.size(), isSolved);
+        Path path = Path.reconstructPath(current);
+        return new InspectAnswer(runTime, this.getNodeCount(), path.getMoves(), isSolved);
     }
 
     private int heuristicManhattan(Board current, Board goal) {
