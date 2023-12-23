@@ -195,7 +195,7 @@ public class Board {
             }
         }
 
-        int zeroIndex = Arrays.asList(flatBoard).indexOf(0);
+        int zeroIndex = Arrays.asList(Arrays.stream(flatBoard).boxed().toArray(Integer[]::new)).indexOf(0);
         if (zeroIndex == -1)
             throw new IllegalArgumentException("The board is not solvable: no empty tile");
 

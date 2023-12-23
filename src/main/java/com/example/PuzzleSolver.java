@@ -86,7 +86,8 @@ public class PuzzleSolver {
                 int tentativeGScore = gScore.get(current) + 1;
 
                 // Skip if the neighbor is already visited and has a higher g-score
-                if (visited.contains(neighbor) && tentativeGScore >= gScore.get(neighbor))
+                if (visited.contains(neighbor)
+                        && (gScore.get(neighbor) == null || tentativeGScore >= gScore.get(neighbor)))
                     continue;
 
                 // Update g-score and total cost if a better path is found
