@@ -126,7 +126,7 @@ public class Graph {
                         || tentativeGScore < gScore.get(neighbor)) {
                     gScore.put(neighbor, tentativeGScore);
 
-                    int totalCost = tentativeGScore + heuristic(neighbor, goal, heuristicType);
+                    int totalCost = tentativeGScore + heuristicType.heuristic(neighbor, goal);
                     neighbor.setTotalCost(totalCost);
                     neighbor.setCameFrom(current);
 
@@ -140,51 +140,5 @@ public class Graph {
         double runTime = getRunTimeInSeconds(startTime);
         Path path = Path.reconstructPath(current);
         return new InspectAnswer(runTime, this.getNodeCount(), path.getMoves(), isSolved);
-    }
-
-    private int heuristicManhattan(Board current, Board goal) {
-        int[][] currentBoard = current.getBoard();
-        int[][] goalBoard = goal.getBoard();
-        int manhattanDistance = 0;
-
-        for (int i = 0; i < currentBoard.length; i++) {
-            for (int j = 0; j < currentBoard[i].length; j++) {
-                int value = currentBoard[i][j];
-                if (value != 0) {
-                    for (int x = 0; x < goalBoard.length; x++) {
-                        for (int y = 0; y < goalBoard[x].length; y++) {
-                            if (goalBoard[x][y] == value) {
-                                manhattanDistance += Math.abs(i - x) + Math.abs(j - y);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return manhattanDistance;
-    }
-
-    private int heuristicDijaksra(Board current, Board goal) {
-        return 0;
-    }
-
-    private int heuristicNonAdmissible(Board current, Board goal) {
-        // Non-admissible heuristic always returns a constant value of 5
-        return 5;
-    }
-
-    private int heuristic(Board current, Board goal, Heuristic type) {
-        switch (type) {
-            case MANHATTAN:
-                return heuristicManhattan(current, goal);
-            case DIJAKSTRA:
-                return heuristicDijaksra(current, goal);
-            case NONADMISSIBLE:
-                return heuristicNonAdmissible(current, goal);
-            default:
-                return 0;
-        }
-
     }
 }
