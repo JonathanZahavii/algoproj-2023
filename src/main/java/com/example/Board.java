@@ -63,9 +63,9 @@ public class Board {
         List<Board> neighbors = new ArrayList<>();
         int oldRow = 0, oldCol = 0;
         boolean found = false;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] == 0) {
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                if (this.board[i][j] == 0) {
                     oldRow = i;
                     oldCol = j;
                     found = true;
@@ -80,9 +80,9 @@ public class Board {
         for (int[] dir : dirs) {
             int newRow = oldRow + dir[0];
             int newCol = oldCol + dir[1];
-            if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
+            if (newRow >= 0 && newRow < this.board.length && newCol >= 0 && newCol < this.board[0].length) {
                 this.swap(oldRow, oldCol, newRow, newCol);
-                neighbors.add(new Board(board));
+                neighbors.add(new Board(this.board));
                 this.swap(oldRow, oldCol, newRow, newCol);
             }
         }
@@ -156,7 +156,7 @@ public class Board {
     }
 
     public void printBoard() {
-        for (int[] row : board) {
+        for (int[] row : this.board) {
             for (int tile : row) {
                 System.out.print(tile + " ");
             }
@@ -211,18 +211,18 @@ public class Board {
         int[][] board = insertBoard();
         isSolvable(board);
         return new Board(board);
-    }
+            }
 
     public int[][] getBoard() {
-        return board;
+        return this.board;
     }
 
     public int getSize() {
-        return size;
+        return this.size;
     }
 
     public int getTotalCost() {
-        return totalCost;
+        return this.totalCost;
     }
 
     public void setTotalCost(int totalCost) {
