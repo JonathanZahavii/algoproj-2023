@@ -35,13 +35,6 @@ public class Graph {
         return this.graph.keySet().size();
     }
 
-    public double getRunTimeInSeconds(long startTime) {
-        long endTime = System.nanoTime();
-        long runTime = endTime - startTime;
-        double runTimeInSeconds = runTime / 1_000_000_000.0;
-        return runTimeInSeconds;
-    }
-
     public InspectAnswer BFS(Board start, Board goal) {
         long startTime = System.nanoTime();
         List<Board> visited = new ArrayList<>();
@@ -73,7 +66,7 @@ public class Graph {
             }
         }
 
-        double runTime = getRunTimeInSeconds(startTime);
+        double runTime = Utillity.getRunTimeInSeconds(startTime);
         Path path = Path.reconstructPath(current);
         return new InspectAnswer(runTime, this.getNodeCount(), path.getMoves(), isSolved);
     }
@@ -137,7 +130,7 @@ public class Graph {
             }
         }
 
-        double runTime = getRunTimeInSeconds(startTime);
+        double runTime = Utillity.getRunTimeInSeconds(startTime);
         Path path = Path.reconstructPath(current);
         return new InspectAnswer(runTime, this.getNodeCount(), path.getMoves(), isSolved);
     }
