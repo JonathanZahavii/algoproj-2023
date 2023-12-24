@@ -10,8 +10,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class PuzzleSolver {
-    public InspectAnswer BFS(Graph graph, Board start, Board goal) {
-        long startTime = System.nanoTime();
+    public static InspectAnswer BFS(Graph graph, Board start, Board goal) {
+        double startTime = System.nanoTime();
         List<Board> visited = new ArrayList<>();
         Queue<Board> queue = new LinkedList<Board>();
         boolean isSolved = false;
@@ -55,8 +55,8 @@ public class PuzzleSolver {
      * @return A list of board states representing the shortest path from start
      *         to goal.
      */
-    public InspectAnswer AStar(Graph graph, Board start, Board goal, Heuristic heuristicType) {
-        long startTime = System.nanoTime();
+    public static InspectAnswer AStar(Graph graph, Board start, Board goal, Heuristic heuristicType) {
+        double startTime = System.nanoTime();
         boolean isSolved = false;
         List<Board> visited = new ArrayList<>();
         Map<Board, Integer> gScore = new HashMap<>(); // Map to store the g-scores (cost from start) for each node

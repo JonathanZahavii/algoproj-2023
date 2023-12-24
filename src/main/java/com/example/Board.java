@@ -152,7 +152,6 @@ public class Board {
                 }
             }
         }
-        this.printBoard();
     }
 
     public void printBoard() {
@@ -211,7 +210,7 @@ public class Board {
         int[][] board = insertBoard();
         isSolvable(board);
         return new Board(board);
-            }
+    }
 
     public int[][] getBoard() {
         return this.board;
