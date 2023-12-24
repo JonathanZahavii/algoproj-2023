@@ -35,7 +35,7 @@ public enum Heuristic {
     NONADMISSIBLE {
         @Override
         public int heuristic(Board current, Board goal) {
-            return this.MANHATTAN.heuristic(current, goal) + 5;
+            return this.MANHATTAN.heuristic(current, goal) + 100;
         }
     };
 
