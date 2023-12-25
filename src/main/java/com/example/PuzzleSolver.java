@@ -46,15 +46,6 @@ public class PuzzleSolver {
         return new InspectAnswer(runTime, graph.getNodeCount(), path, isSolved);
     }
 
-    /**
-     * Performs the A* search algorithm to find the shortest path from the start
-     * board to the goal board.
-     *
-     * @param start The initial state of the puzzle.
-     * @param goal  The goal state of the puzzle.
-     * @return A list of board states representing the shortest path from start
-     *         to goal.
-     */
     public static InspectAnswer AStar(Graph graph, Board start, Board goal, Heuristic heuristicType) {
         double startTime = System.nanoTime();
         boolean isSolved = false;
