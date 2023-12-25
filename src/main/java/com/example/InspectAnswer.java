@@ -15,12 +15,24 @@ public class InspectAnswer {
         this.isSolved = true;
     }
 
-
     public InspectAnswer() {
         this.runTime = 0.0;
         this.nodesExplored = 0;
         this.moves = 0;
         this.isSolved = true;
+    }
+
+    public void add(InspectAnswer inspectAnswer) {
+        this.runTime += inspectAnswer.getRunTime();
+        this.nodesExplored += inspectAnswer.getNodesExplored();
+        this.moves += inspectAnswer.getMoves();
+        this.isSolved = this.isSolved && inspectAnswer.isSolved();
+    }
+
+    public void divide(int n) {
+        this.runTime /= n;
+        this.nodesExplored /= n;
+        this.moves /= n;
     }
 
     public double getRunTime() {
@@ -65,19 +77,5 @@ public class InspectAnswer {
         System.out.println("Nodes explored: " + nodesExplored);
         System.out.println("Moves: " + moves);
         System.out.println("Solved: " + isSolved);
-    }
-
-
-    public void add(InspectAnswer inspectAnswer) {
-        this.runTime += inspectAnswer.getRunTime();
-        this.nodesExplored += inspectAnswer.getNodesExplored();
-        this.moves += inspectAnswer.getMoves();
-        this.isSolved = this.isSolved && inspectAnswer.isSolved();
-    }
-
-    public void divide(int n) {
-        this.runTime /= n;
-        this.nodesExplored /= n;
-        this.moves /= n;
     }
 }

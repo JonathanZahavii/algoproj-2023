@@ -55,7 +55,7 @@ public class Game {
         // inspectAnswer.getPath().print(); // Print path
     }
 
-    public void RunMultiple() {
+    public void runMultiple() {
         // Init answer objects
         InspectAnswer inspectAnswerBFS = new InspectAnswer();
         InspectAnswer inspectAnswerDIJ = new InspectAnswer();
