@@ -28,10 +28,6 @@ public class Board {
         return true;
     }
 
-    /**
-     *
-     * @param blocks 2D array representing the initial state of the board.
-     */
     public Board(int[][] board) {
         this.board = new int[board.length][board.length];
         for (int i = 0; i < board.length; i++) {
@@ -184,8 +180,12 @@ public class Board {
 
     private static boolean isSolvable(int[][] board) {
         int[] flatBoard = Arrays.stream(board).flatMapToInt(Arrays::stream).toArray();
+        
+        int zeroIndex = Arrays.asList(Arrays.stream(flatBoard).boxed().toArray(Integer[]::new)).indexOf(0);
+        if (zeroIndex == -1)
+        throw new IllegalArgumentException("The board is not solvable: no empty tile");
+        
         int inversions = 0;
-
         for (int i = 0; i < flatBoard.length - 1; i++) {
             for (int j = i + 1; j < flatBoard.length; j++) {
                 if (flatBoard[i] > flatBoard[j]) {
@@ -194,12 +194,8 @@ public class Board {
             }
         }
 
-        int zeroIndex = Arrays.asList(Arrays.stream(flatBoard).boxed().toArray(Integer[]::new)).indexOf(0);
-        if (zeroIndex == -1)
-            throw new IllegalArgumentException("The board is not solvable: no empty tile");
-
         int blankRowFromBottom = (flatBoard.length - zeroIndex) / board.length;
-        if ((board.length % 2 == 0 && blankRowFromBottom % 2 != inversions % 2) || inversions % 2 == 0) {
+        if ((board.length % 2 == 0 && (blankRowFromBottom % 2 != inversions % 2)) || inversions % 2 == 0) {
             return true;
         } else {
             throw new IllegalArgumentException("The board is not solvable");
