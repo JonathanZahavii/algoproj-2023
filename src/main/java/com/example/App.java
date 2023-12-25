@@ -3,13 +3,30 @@ package com.example;
 public class App {
 
     public static void main(String[] args) {
-
-        // Board initBoard = Board.getBoardFromUser();
-        final int RUNS = 50;
+        /*
+         * Game constants
+         */
+        final int RUNS = 1;
         final int SIZE = 15;
+        final Board GOAL_BOARD = new Board(SIZE);
 
-        Board goalBoard = new Board(SIZE);
+        /*
+         * Get board from user
+         */
+        // Board initBoard = Board.getBoardFromUser();
 
+        /*
+         * Generate random board
+         */
+        // Board initBoard = new Board(SIZE);
+        // initBoard.generateSolvableInXMoves(10);
+        // Graph graph = new Graph();
+        // InspectAnswer inspectAnswer = (PuzzleSolver.BFS(graph, initBoard, GOAL_BOARD));
+        // inspectAnswer.getPath().print();
+
+        /*
+         * Run game multiple times
+         */
         InspectAnswer inspectAnswerBFS = new InspectAnswer();
         InspectAnswer inspectAnswerDIJ = new InspectAnswer();
         InspectAnswer inspectAnswerMAN = new InspectAnswer();
@@ -21,21 +38,21 @@ public class App {
 
             Board initBoardBFS = new Board(initBoard.getBoard());
             Graph graphBFS = new Graph();
-            inspectAnswerBFS.add(PuzzleSolver.BFS(graphBFS, initBoardBFS, goalBoard));
+            inspectAnswerBFS.add(PuzzleSolver.BFS(graphBFS, initBoardBFS, GOAL_BOARD));
 
             Board initBoardDIJ = new Board(initBoard.getBoard());
             Graph graphDIJ = new Graph();
-            inspectAnswerDIJ.add(PuzzleSolver.AStar(graphDIJ, initBoardDIJ, goalBoard,
-            Heuristic.DIJAKSTRA));
+            inspectAnswerDIJ.add(PuzzleSolver.AStar(graphDIJ, initBoardDIJ, GOAL_BOARD,
+                    Heuristic.DIJAKSTRA));
 
             Board initBoardMAN = new Board(initBoard.getBoard());
             Graph graphMAN = new Graph();
-            inspectAnswerMAN.add(PuzzleSolver.AStar(graphMAN, initBoardMAN, goalBoard,
+            inspectAnswerMAN.add(PuzzleSolver.AStar(graphMAN, initBoardMAN, GOAL_BOARD,
                     Heuristic.MANHATTAN));
 
             Board initBoardNAD = new Board(initBoard.getBoard());
             Graph graphNAD = new Graph();
-            inspectAnswerNAD.add(PuzzleSolver.AStar(graphNAD, initBoardNAD, goalBoard,
+            inspectAnswerNAD.add(PuzzleSolver.AStar(graphNAD, initBoardNAD, GOAL_BOARD,
                     Heuristic.NONADMISSIBLE));
         }
 

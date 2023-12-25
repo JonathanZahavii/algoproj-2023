@@ -30,6 +30,12 @@ public class Path {
         Collections.reverse(path.getPath());
         return path;
     }
+
+    public void print() {
+        for (Board board : path) {
+            board.print();
+        }
+    }
 }
 
 

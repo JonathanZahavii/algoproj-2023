@@ -154,7 +154,7 @@ public class Board {
         }
     }
 
-    public void printBoard() {
+    public void print() {
         for (int[] row : this.board) {
             for (int tile : row) {
                 System.out.print(tile + " ");

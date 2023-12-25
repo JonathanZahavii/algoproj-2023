@@ -43,7 +43,7 @@ public class PuzzleSolver {
 
         double runTime = Utillity.getRunTimeInSeconds(startTime);
         Path path = Path.reconstructPath(current);
-        return new InspectAnswer(runTime, graph.getNodeCount(), path.getMoves(), isSolved);
+        return new InspectAnswer(runTime, graph.getNodeCount(), path, isSolved);
     }
 
     /**
@@ -108,6 +108,6 @@ public class PuzzleSolver {
 
         double runTime = Utillity.getRunTimeInSeconds(startTime);
         Path path = Path.reconstructPath(current);
-        return new InspectAnswer(runTime, graph.getNodeCount(), path.getMoves(), isSolved);
+        return new InspectAnswer(runTime, graph.getNodeCount(), path, isSolved);
     }
 }

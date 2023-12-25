@@ -3,13 +3,15 @@ package com.example;
 public class InspectAnswer {
     private double runTime;
     private int nodesExplored;
+    private Path path;
     private int moves;
     private boolean isSolved;
 
-    public InspectAnswer(double runTime, int nodesExplored, int moves, boolean isSolved) {
+    public InspectAnswer(double runTime, int nodesExplored, Path path, boolean isSolved) {
         this.runTime = runTime;
         this.nodesExplored = nodesExplored;
-        this.moves = moves;
+        this.path = path;
+        this.moves = path.getMoves();
         this.isSolved = true;
     }
 
@@ -51,6 +53,10 @@ public class InspectAnswer {
 
     public void setSolved(boolean solved) {
         isSolved = solved;
+    }
+
+    public Path getPath() {
+        return path;
     }
 
     public void print() {
