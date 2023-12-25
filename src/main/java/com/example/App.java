@@ -9,10 +9,10 @@ public class App {
         final Board GOAL_BOARD = new Board(SIZE);
         boolean isFromUser = false;
 
-        // Game gameOnce = new Game(SIZE, MOVES, GOAL_BOARD, isFromUser);
-        // gameOnce.runOnce(Heuristic.MANHATTAN.name());
+        Game gameOnce = new Game(SIZE, MOVES, GOAL_BOARD, isFromUser);
+        gameOnce.runOnce("BFS");
 
-        Game gameMultiple = new Game(RUNS, SIZE, MOVES, GOAL_BOARD);
-        gameMultiple.RunMultiple();
+        // Game gameMultiple = new Game(RUNS, SIZE, MOVES, GOAL_BOARD);
+        // gameMultiple.RunMultiple();
     }
 }

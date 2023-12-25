@@ -30,7 +30,7 @@ public class PuzzleSolver {
 
             if (!visited.contains(current)) {
                 visited.add(current);
-                for (Board neighbor : current.getNeighbors()) {
+                for (Board neighbor : graph.getNeighbors(current)) {
                     graph.addNode(neighbor);
                     graph.addEdge(current, neighbor);
                     neighbor.setCameFrom(current);
@@ -80,7 +80,7 @@ public class PuzzleSolver {
                 break;
             }
 
-            for (Board neighbor : current.getNeighbors()) {
+            for (Board neighbor : graph.getNeighbors(current)) {
                 graph.addNode(neighbor);
                 graph.addEdge(current, neighbor);
                 int tentativeGScore = gScore.get(current) + 1;
