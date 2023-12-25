@@ -6,8 +6,9 @@ public class App {
         /*
          * Game constants
          */
-        final int RUNS = 1;
+        final int RUNS = 5;
         final int SIZE = 15;
+        final int MOVES = 10;
         final Board GOAL_BOARD = new Board(SIZE);
 
         /*
@@ -19,10 +20,12 @@ public class App {
          * Generate random board
          */
         // Board initBoard = new Board(SIZE);
-        // initBoard.generateSolvableInXMoves(10);
+        // initBoard.generateSolvableInXMoves(MOVES);
         // Graph graph = new Graph();
-        // InspectAnswer inspectAnswer = (PuzzleSolver.BFS(graph, initBoard, GOAL_BOARD));
-        // inspectAnswer.getPath().print();
+        // InspectAnswer inspectAnswer = (PuzzleSolver.BFS(graph, initBoard,
+        // GOAL_BOARD));
+        // inspectAnswer.print();
+        // inspectAnswer.getPath().print(); // Print path
 
         /*
          * Run game multiple times
@@ -34,7 +37,7 @@ public class App {
 
         for (int i = 0; i < RUNS; i++) {
             Board initBoard = new Board(SIZE);
-            initBoard.generateSolvableInXMoves(10);
+            initBoard.generateSolvableInXMoves(MOVES);
 
             Board initBoardBFS = new Board(initBoard.getBoard());
             Graph graphBFS = new Graph();
