@@ -3,6 +3,7 @@ package com.example;
 public class App {
 
     public static void main(String[] args) {
+        // region Constants
         /*
          * Game constants
          */
@@ -11,66 +12,80 @@ public class App {
         final int MOVES = 10;
         final Board GOAL_BOARD = new Board(SIZE);
 
+        // endregion
+
+        // region One run
         /*
          * Get board from user
          */
-        // Board initBoard = Board.getBoardFromUser();
+        Board initBoard = Board.getBoardFromUser();
 
         /*
          * Generate random board
          */
         // Board initBoard = new Board(SIZE);
         // initBoard.generateSolvableInXMoves(MOVES);
-        // Graph graph = new Graph();
-        // InspectAnswer inspectAnswer = (PuzzleSolver.BFS(graph, initBoard,
-        // GOAL_BOARD));
-        // inspectAnswer.print();
-        // inspectAnswer.getPath().print(); // Print path
 
         /*
-         * Run game multiple times
+         * Solve puzzle
          */
-        InspectAnswer inspectAnswerBFS = new InspectAnswer();
-        InspectAnswer inspectAnswerDIJ = new InspectAnswer();
-        InspectAnswer inspectAnswerMAN = new InspectAnswer();
-        InspectAnswer inspectAnswerNAD = new InspectAnswer();
+        Graph graph = new Graph();
+        InspectAnswer inspectAnswer = (PuzzleSolver.AStar(graph, initBoard,
+                GOAL_BOARD, Heuristic.MANHATTAN));
+        inspectAnswer.print();
+        // inspectAnswer.getPath().print(); // Print path
 
-        for (int i = 0; i < RUNS; i++) {
-            Board initBoard = new Board(SIZE);
-            initBoard.generateSolvableInXMoves(MOVES);
+        // endregion
 
-            Board initBoardBFS = new Board(initBoard.getBoard());
-            Graph graphBFS = new Graph();
-            inspectAnswerBFS.add(PuzzleSolver.BFS(graphBFS, initBoardBFS, GOAL_BOARD));
+        // region Multiple runs
+        // /*
+        // * Run game multiple times
+        // */
+        // // Init answer objects
+        // InspectAnswer inspectAnswerBFS = new InspectAnswer();
+        // InspectAnswer inspectAnswerDIJ = new InspectAnswer();
+        // InspectAnswer inspectAnswerMAN = new InspectAnswer();
+        // InspectAnswer inspectAnswerNAD = new InspectAnswer();
 
-            Board initBoardDIJ = new Board(initBoard.getBoard());
-            Graph graphDIJ = new Graph();
-            inspectAnswerDIJ.add(PuzzleSolver.AStar(graphDIJ, initBoardDIJ, GOAL_BOARD,
-                    Heuristic.DIJAKSTRA));
+        // for (int i = 0; i < RUNS; i++) {
+        // // Generate random board
+        // Board initBoard = new Board(SIZE);
+        // initBoard.generateSolvableInXMoves(MOVES);
 
-            Board initBoardMAN = new Board(initBoard.getBoard());
-            Graph graphMAN = new Graph();
-            inspectAnswerMAN.add(PuzzleSolver.AStar(graphMAN, initBoardMAN, GOAL_BOARD,
-                    Heuristic.MANHATTAN));
+        // Board initBoardBFS = new Board(initBoard.getBoard());
+        // Graph graphBFS = new Graph();
+        // inspectAnswerBFS.add(PuzzleSolver.BFS(graphBFS, initBoardBFS, GOAL_BOARD));
 
-            Board initBoardNAD = new Board(initBoard.getBoard());
-            Graph graphNAD = new Graph();
-            inspectAnswerNAD.add(PuzzleSolver.AStar(graphNAD, initBoardNAD, GOAL_BOARD,
-                    Heuristic.NONADMISSIBLE));
-        }
+        // Board initBoardDIJ = new Board(initBoard.getBoard());
+        // Graph graphDIJ = new Graph();
+        // inspectAnswerDIJ.add(PuzzleSolver.AStar(graphDIJ, initBoardDIJ, GOAL_BOARD,
+        // Heuristic.DIJAKSTRA));
 
-        inspectAnswerBFS.divide(RUNS);
-        inspectAnswerDIJ.divide(RUNS);
-        inspectAnswerMAN.divide(RUNS);
-        inspectAnswerNAD.divide(RUNS);
+        // Board initBoardMAN = new Board(initBoard.getBoard());
+        // Graph graphMAN = new Graph();
+        // inspectAnswerMAN.add(PuzzleSolver.AStar(graphMAN, initBoardMAN, GOAL_BOARD,
+        // Heuristic.MANHATTAN));
 
-        System.out.println("BFS");
-        inspectAnswerBFS.print();
-        System.out.println("DIJ");
-        inspectAnswerDIJ.print();
-        System.out.println("MAN");
-        inspectAnswerMAN.print();
-        System.out.println("NAD");
-        inspectAnswerNAD.print();
+        // Board initBoardNAD = new Board(initBoard.getBoard());
+        // Graph graphNAD = new Graph();
+        // inspectAnswerNAD.add(PuzzleSolver.AStar(graphNAD, initBoardNAD, GOAL_BOARD,
+        // Heuristic.NONADMISSIBLE));
+        // }
+
+        // inspectAnswerBFS.divide(RUNS);
+        // inspectAnswerDIJ.divide(RUNS);
+        // inspectAnswerMAN.divide(RUNS);
+        // inspectAnswerNAD.divide(RUNS);
+
+        // System.out.println("BFS");
+        // inspectAnswerBFS.print();
+        // System.out.println("DIJ");
+        // inspectAnswerDIJ.print();
+        // System.out.println("MAN");
+        // inspectAnswerMAN.print();
+        // System.out.println("NAD");
+        // inspectAnswerNAD.print();
+
+        // endregion
     }
 }
